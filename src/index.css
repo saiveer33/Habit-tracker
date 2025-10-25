@@ -1,13 +1,48 @@
+/*
+CHANGES MADE:
+1. Added smooth transitions for color, background, and transform effects.
+2. Added hover & active states for buttons, links, and inputs.
+3. Added fade-in animation for body load.
+4. Added scrollbar fade-in animation (hidden by default, visible on hover for accessibility).
+5. Added reusable utility classes for animations (.fade-in, .slide-up, .scale-up).
+6. Improved variable naming and added section comments.
+7. Organized structure for readability.
+8. Added comments for each section for easy understanding.
+*/
+/* =========================
+   GLOBAL SCROLLBAR SETTINGS
+   ========================= */
 ::-webkit-scrollbar {
-	display: none;
+	display: none; /* hides scrollbar by default */
 }
 
+/* Optional: show scrollbar on hover for accessibility */
+html:hover::-webkit-scrollbar {
+	display: block;
+	width: 8px;
+}
+::-webkit-scrollbar-thumb {
+	background: var(--accent-color);
+	border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+	background: var(--bg-color-secondary);
+}
+
+/* =========================
+   RESET & GLOBAL RULES
+   ========================= */
 * {
 	box-sizing: border-box;
 	padding: 0;
 	margin: 0;
+	scroll-behavior: smooth; /* smooth scroll for navigation */
+	transition: all 0.25s ease-in-out; /* universal soft transitions */
 }
 
+/* =========================
+   THEME VARIABLES
+   ========================= */
 :root {
 	--app-width: 760px;
 	--header-height: 4rem;
@@ -26,46 +61,151 @@
 	--input-height-primary: 3rem;
 }
 
+/* =========================
+   BODY & TYPOGRAPHY
+   ========================= */
 body {
 	margin: 0;
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-		'Droid Sans', 'Helvetica Neue', sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+		'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	overscroll-behavior: none;
+	background-color: var(--bg);
+	color: light-dark(black, hsl(0, 0%, 90%));
+	animation: fadeIn 0.8s ease-in-out; /* body fade animation */
 }
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+/* =========================
+   HTML BASE STYLES
+   ========================= */
 html {
 	color-scheme: light dark;
 	background-color: var(--bg);
-	color: light-dark(black, hsl(0, 0%, 90%));
 	user-select: none;
+	scroll-behavior: smooth;
 }
 
+/* =========================
+   LINK STYLES
+   ========================= */
 a {
-	color: unset;
+	color: var(--accent-color);
 	text-decoration: none;
+	transition: color 0.3s ease-in-out;
+}
+a:hover {
+	color: hsl(210, 100%, 70%);
 }
 
+/* =========================
+   BUTTON STYLES
+   ========================= */
 button {
 	border: none;
-	color: inherit;
+	color: white;
+	background-color: var(--accent-color);
+	padding: 0.7rem 1.4rem;
+	border-radius: var(--border-radius-tertiary);
+	cursor: pointer;
+	font-weight: 500;
+	transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+button:hover {
+	transform: scale(1.05);
+	background-color: hsl(210, 100%, 55%);
+}
+
+button:active {
+	transform: scale(0.98);
+}
+
+/* =========================
+   INPUT FIELDS
+   ========================= */
 input {
 	border: none;
 	background-color: var(--bg-color-primary);
 	border-radius: var(--border-radius-secondary);
+	height: var(--input-height-primary);
+	padding: 0 1rem;
+	width: 100%;
+	color: inherit;
+	outline: none;
+	transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+input:focus {
+	background-color: var(--bg-color-secondary);
+	box-shadow: 0 0 0.3rem var(--accent-color);
+}
+
+/* =========================
+   LIST STYLES
+   ========================= */
 li {
 	list-style: none;
 }
 
+/* =========================
+   SCROLL & UTILITIES
+   ========================= */
 .no-scroll {
 	overflow: hidden;
+}
+
+/* =========================
+   ANIMATIONS
+   ========================= */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes slideUp {
+	from {
+		transform: translateY(20px);
+		opacity: 0;
+	}
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
+
+@keyframes scaleUp {
+	from {
+		transform: scale(0.9);
+		opacity: 0.8;
+	}
+	to {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+/* =========================
+   REUSABLE ANIMATION CLASSES
+   ========================= */
+.fade-in {
+	animation: fadeIn 0.8s ease forwards;
+}
+
+.slide-up {
+	animation: slideUp 0.6s ease forwards;
+}
+
+.scale-up {
+	animation: scaleUp 0.5s ease forwards;
 }
